@@ -96,8 +96,10 @@
                     </svg>
             </footer>
         </div>
-        <a href="#" class="download">下载 PDF 文档</a>
-        <p>
+        <div class="center">
+            <a href="./styles/resume.css" class="download" target="_blank" download="">下载 PDF 文档</a>
+        </div>
+        <p class="selfIntroduction">
             本人学识渊博、经验丰富，代码风骚、效率恐怖，<br>
             C/C++、java、php无不精通，熟练掌握各种框架，<br>
             深山苦练20余年，一天只睡4个小时，千里之外定位问题，瞬息之间修复上线。<br>
@@ -108,30 +110,85 @@
             备用电源万兆光纤永不断电断网，门口已埋雷无人打扰。<br>
         </p>
     </main>
-    <section>
-        <h2>技能</h2>
-        <ol>
-            <li>HTML &amp; CSS</li>
-            <li>JQuery</li>
-            <li>React</li>
-            <li>Vue</li>
-            <li>HTTP</li>
+ <section class="skills">
+    <h2>技能</h2>
+    <ol class="clearfix">
+        <li>
+            <h3>HTML &amp; CSS</h3>
+            <div class="progressBar">
+                <div class="progress"></div>
+            </div>
+        </li>
+        <li>
+            <h3>JavaScript</h3>
+            <div class="progressBar">
+                <div class="progress" style="width: 60%"></div>
+            </div>
+        </li>
+        <li>
+            <h3>JQuery</h3>
+            <div class="progressBar">
+                <div class="progress" style="width: 50%"></div>
+            </div>
+        </li>
+        <li>
+            <h3>React.js</h3>
+            <div class="progressBar">
+                <div class="progress" style="width: 80%"></div>
+            </div>
+        </li>
+        <li>
+            <h3>Vue.js</h3>
+            <div class="progressBar">
+                <div class="progress" style="width: 75%"></div>
+            </div>
+        </li>
+        <li>
+            <h3>Node.js</h3>
+            <div class="progressBar">
+                <div class="progress" style="width: 30%"></div>
+            </div>
+        </li>
+    </ol>
+</section>
+<section class="portfolio">
+    <h2>作品集</h2>
+    <nav>
+        <ol class="clearfix">
+            <li id="portfolio1">所有</li>
+            <li id="portfolio2">框架</li>
+            <li id="portfolio3">原生 JS&amp; CSS </li>
         </ol>
-    </section>
-    <section>
-        <h2>作品集</h2>
-        <nav>
-            <ol>
-                <li>所有</li>
-                <li>框架</li>
-                <li>原生 JS&amp; CSS </li>
-            </ol>
-        </nav>
-        <div class="jobs">
-            <div class="big"></div>
-            <div class="small"></div>
-            <div class="small"></div>
+        <div id="portfolioBar" class="bar state-1">
+            <div class="bar-inner"></div>
         </div>
-    </section>
+    </nav>
+    <script>
+        portfolio1.onclick= function () {
+            portfolioBar.className = "bar state-1"
+        }
+        portfolio2.onclick= function () {
+            portfolioBar.className = "bar state-2"
+        }
+        portfolio3.onclick= function () {
+            portfolioBar.className = "bar state-3"
+        }
+    </script>
+
+    <div class="works" style="height: 422px">
+        <div class="big" style="top:0;left:0;">
+            <img src="mac.jpg" alt=" 作品1">
+        </div>
+        <div class="small" style="top:0;left:646px">
+            <img src="phone.jpg" alt="作品2">
+        </div>
+        <div class="small" style="top: 205px;left:646px">
+            <img src="watch.jpg" alt="作品3">
+        </div>
+    </div>
+</section>
+<div>
+
+</div>
 </body>
 </html>

@@ -18,26 +18,36 @@ h1,h2,h3,h4,h5,h6{
     display: block;
     clear: both;
 }
-.TopNavBar{
+.topNavBar{
     position:fixed;
     width: 100%;
     top:0;
     left:0;
+    padding: 20px 0;
+    transition: 0.5s;
+    color: #b7b7b7;
 }
-.TopNavBar-init{
-    padding: 20px 16px;
+.topNavBar.sticky{
+    background-color: white;
+    padding: 10px 0;
+    z-index: 1;
+    box-shadow: 0 0 10px rgba(0,0,0,0.25);
+    color: #3d4451;
 }
-.TopNavBar .logo{
+.topNavBar-init{
+    padding: 0px 16px;
+}
+.topNavBar .logo{
     font-family: "Arial Black";
     font-size: 24px;
     padding-top: 4px;
     padding-bottom: 3px;
 }
-.TopNavBar .logo .rs{
+.topNavBar .logo .rs{
     color: #e5676c;
     margin-right: 4px;
 }
-.TopNavBar .logo .card{
+.topNavBar .logo .card{
     color: #999ca1;
 }
 a{
@@ -54,33 +64,89 @@ a{
     height: 515px;
     background-color: rgba(0,0,0,0.8);
 }
-.TopNavBar a {
+[data-x]{
+    transform: translateY(0);
+    transition: all 0.5s;
+}
+[data-x].offset{
+    transform: translateY(100px);
+}
+.topNavBar a {
     float: left;
 }
-.TopNavBar nav ul{
+.topNavBar nav ul{
     list-style: none;
     margin: 0;
     padding: 0;
     float: right;
-    padding-top: 8px;
+    padding-top: 5px;
     padding-bottom: 0px;
 }
-.TopNavBar nav ul li{
+.topNavBar nav ul li{
     float: left;
     margin-left: 17px;
     margin-right: 17px;
+    display: block;
+    position: relative;
+    /*width: 48px;*/
 }
-.TopNavBar nav ul li a{
+.topNavBar nav ul li a{
     font-size: 12px;
-    color: #bdc0c0;
+    color: inherit;
     font-weight: bold;
     border-top: 3px solid transparent;
     border-bottom: 3px solid transparent;
-    padding: 5px 0px;
+    padding: 5px 0;
     display: block;
+    position: relative;
 }
-.TopNavBar nav ul li a:hover{
-    border-bottom: 3px solid #e06567;
+.topNavBar .submenu{
+    display: none;
+    position: absolute;
+    top: 100%;
+    right: -25px;
+    background: white;
+    color: #3d4451;
+    box-shadow: 0 0 5px rgba(0,0,0,0.5);
+    cursor: pointer;
+}
+
+.topNavBar li.active .submenu{
+    display: block;
+    animation: submenuSlide 0.3s;
+}
+@keyframes submenuSlide {
+    0%{
+        margin-right: 100%;
+    }
+    100%{
+        margin-right: 0%;
+    }
+}
+.topNavBar .submenu li{
+    white-space: nowrap;
+    padding: 5px 0 10px;
+}
+.topNavBar nav ul li.active a::after,
+.topNavBar nav ul li.highlight a::after{
+    content: '';
+    position: absolute;
+    /*bottom: 0; 与top%的区别在于bottom以div的底部计算，top是以div的顶部计算，当div有高度时，区别明显 */
+    top: 100%;
+    display: block;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background-color: #e06567;
+    /*border-bottom: 3px solid #e06567;*/
+    animation: menuSlide 0.3s;
+}
+@keyframes menuSlide {
+    0%{
+        width: 0;}
+    100%{
+        width: 100%;
+    }
 }
 .userCard{
     background-color: #ffffff;
@@ -90,6 +156,7 @@ a{
 }
 .userCard .pictureAndText{
     padding: 58px 50px;
+    margin-top: -320px;
 }
 .userCard .welcome{
     position: relative;
@@ -230,12 +297,18 @@ section.skills .progressBar{
     margin: 5px 0 39px;
     background: #fae1e1;
     border-radius: 2px;
+    overflow: hidden;
 }
 section.skills .progress{
     background: #e6686a;
     height: 100%;
     width:70%;
     border-radius: 2px;
+    transform: translateX(0);
+    transition: all 1s;
+}
+section.skills.offset .progress{
+    transform: translateX(-100%);
 }
 section.portfolio{
     text-align: center;

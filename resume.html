@@ -12,33 +12,88 @@
             fill: currentColor;
             overflow: hidden;
         }
+        .loading{
+            height: 200px;
+            width: 200px;
+            position: relative;
+        }
+        .loading::before,.loading::after{
+            content: '';
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: black;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            margin: auto;
+            animation: s 1.5s linear infinite;
+        }
+        .loading::after{animation-delay: 0.7s;}
+        @keyframes s {
+            0%{
+                width: 0;height: 0;opacity: 1;
+            }
+            100%{
+                width: 100px;height: 100px;opacity: 0;
+            }
+        }
+        .site-welcome{
+            display: none;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            background-color: #888;
+            position: fixed;
+            justify-content: center;
+            align-items: center;
+        }
+        .site-welcome.active{
+            display: flex;
+        }
     </style>
 </head>
 <body>
-<div class="TopNavBar" >
-    <div class="TopNavBar-init clearfix">
+<div id="siteWelcome" class="site-welcome active"><div class="loading"></div></div>
+<div id="topNavBar" class="topNavBar" >
+    <div class="topNavBar-init clearfix">
         <a href="#" alt="logo" class="logo">
             <span class="rs">RS</span><span class="card">card</span>
         </a>
         <nav>
             <ul class="clearfix">
                 <li>
-                    <a href="#">关于</a>
+                    <a href="#siteabout">关于</a>
                 </li>
                 <li>
-                    <a href="#">技能</a>
+                    <a href="#siteskill">技能</a>
                 </li>
                 <li>
-                    <a href="#">作品</a>
+                    <a href="#siteworks">作品</a>
+                    <ul class="submenu">
+                        <li>作品1</li>
+                        <li>作品2</li>
+                        <li>作品3</li>
+                    </ul>
+                    <ul></ul>
                 </li>
                 <li>
-                    <a href="#">博客</a>
+                    <a href="#siteblog">博客</a>
+                    <ul class="submenu">
+                        <li>博客1</li>
+                        <li>博客2</li>
+                        <li>博客3</li>
+                    </ul>
                 </li>
-                <li><a href="#">日历</a>
+                <li><a href="#sitecalendar">日历</a>
                 </li>
-                <li><a href="#">联系方式</a>
+                <li><a href="#sitenumber">联系方式</a>
                 </li>
-                <li><a href="#">其它</a>
+                <li><a href="#siteelse">其它</a>
                 </li>
             </ul>
         </nav>
@@ -49,7 +104,7 @@
     <div class="mask"></div>
 </div>
     <main>
-        <div class="userCard">
+        <div data-x id="siteabout" class="userCard">
             <div class="pictureAndText clearfix">
                 <div class="picture">
                     <img src="./startuper.jpg" alt="头像">
@@ -64,7 +119,7 @@
                         <hr>
                         <dl>
                             <dt>年龄</dt>
-                            <dd>25</dd>
+                            <dd>18</dd>
                             <dt>所在地</dt>
                             <dd>上海</dd>
                             <dt>邮箱</dt>
@@ -110,7 +165,7 @@
             备用电源万兆光纤永不断电断网，门口已埋雷无人打扰。<br>
         </p>
     </main>
- <section class="skills">
+ <section data-x id="siteskill" class="skills">
     <h2>技能</h2>
     <ol class="clearfix">
         <li>
@@ -151,7 +206,7 @@
         </li>
     </ol>
 </section>
-<section class="portfolio">
+<section data-x id="siteworks" class="portfolio">
     <h2>作品集</h2>
     <nav>
         <ol class="clearfix">
@@ -187,8 +242,105 @@
         </div>
     </div>
 </section>
-<div>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/tween.js/17.2.0/Tween.min.js'></script>
+<script>
+    setTimeout(function(){siteWelcome.classList.remove('active')},1000)
+    let specialTags = document.querySelectorAll('[data-x]')
+    for(let i = 0;i<specialTags.length;i++){
+        specialTags[i].classList.add('offset')
+    }
+    setTimeout(function(){closest()},1100)
+    window.onscroll = function (x) {
+        if (window.scrollY > 0) {
+            topNavBar.classList.add('sticky')
+        } else {
+            topNavBar.classList.remove('sticky')
+        }
+        closest()
+    }
+    function closest() {
+        let specialTags = document.querySelectorAll('[data-x]')
+        let minIndex = 0
+        for(let i = 1;i<specialTags.length;i++){
+            if(Math.abs(specialTags[i].offsetTop - window.scrollY)<Math.abs(specialTags[minIndex].offsetTop-window.scrollY)){
+                minIndex = i
+            }
+        }
+        specialTags[minIndex].classList.remove('offset')
+        let id = specialTags[minIndex].id
+        let a = document.querySelector('a[href="#'+id+'"]')  //('a[ href = "#siteskill" ]')
+        let li = a.parentNode
+        let children = li.parentNode.children
+        for(let i = 0;i<children.length;i++){
+            children[i].classList.remove('highlight')
+        }
+        li.classList.add('highlight')
+    }
 
-</div>
+    let liTags = document.querySelectorAll('nav > ul > li')  //注意写法
+    for(let i = 0;i<liTags.length;i++){
+        liTags[i].onmouseenter = function (x) {
+            let li = x.currentTarget
+            li.classList.add('active')
+        }
+        liTags[i].onmouseleave = function (x) {
+            let li = x.currentTarget
+            li.classList.remove('active')
+        }
+    }
+
+    let aTags = document.querySelectorAll('nav > ul > li > a')  // querySelectorAll 之后可跟签名，可跟id或类
+
+    // 求帧率  告诉tween，根据浏览器的性能来决定多少毫秒一帧
+    function animate(time) {
+        requestAnimationFrame(animate);
+        TWEEN.update(time);
+    }
+    requestAnimationFrame(animate);
+
+    for(let i = 0;i < aTags.length;i++){
+        aTags[i].onclick = function (x) {
+            x.preventDefault()  // 阻止默认动作  如果本身是a标签，阻止之后会不再跳转
+            let a = x.currentTarget
+            let href = a.getAttribute('href')  // '#siteskill'
+            let element = document.querySelector(href)
+            let top = element.offsetTop  //这个高度是指div初始状态距离窗口的高度，不变
+            let currentTop = window.scrollY
+            let targetTop = top - 80
+            let s = targetTop - currentTop
+
+
+            var coords = {y:currentTop}
+            var t = Math.abs((s/100)*200)  //求绝对值
+            if(t>500){t = 500}
+
+            // tween的文档给的API
+            new TWEEN.Tween(coords)  //放入初始位置
+                .to({y:targetTop},t)  //放入目标位置和时间
+                .easing(TWEEN.Easing.Quadratic.InOut)  //选择函数类型，使用什么方式变化
+                .onUpdate(function() {
+                    window.scrollTo(0,coords.y)   //每次变化时执行的操作
+                })
+                .start();  //开始执行操作，每次执行时，y值不断发生变化
+
+
+            //线性动画
+            // let n = 25
+            // let duration = 500/n
+            // let currentTop = window.scrollY
+            // let targetTop = top - 80
+            // let distance = (targetTop - currentTop)/n
+            // let i = 0
+            // let id =setInterval(()=> {
+            //     if(i===n){
+            //         window.clearInterval(id)
+            //         return
+            //     }
+            //     i = i + 1
+            //     window.scrollTo(0,currentTop + distance*i )
+            // },duration)
+        }
+    }
+</script>
 </body>
 </html>
